@@ -2,7 +2,7 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <title>Happy Birthday 💌</title>
+    <title>Happy Birthday ✉️</title>
 
     <style>
       * {
@@ -18,7 +18,8 @@
         justify-content: center;
         align-items: center;
         padding: 20px;
-        overflow: hidden;
+        overflow-y: auto;   /* ✅ aktifkan scroll vertikal */
+        overflow-x: hidden;
       }
 
       .card {
@@ -123,27 +124,66 @@
           opacity: 0;
         }
       }
+
+      .fact-btn {
+    margin-top: 18px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    background: linear-gradient(135deg, #36d1dc, #5b86e5);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    display: none;
+    transition: 0.3s;
+}
+
+.fact-btn:hover {
+    transform: scale(1.03);
+}
+
+.facts {
+    margin-top: 18px;
+    padding: 18px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 16px;
+    display: none;
+    animation: fadeUp 0.8s ease forwards;
+}
     </style>
   </head>
 
   <body>
     <div class="card">
-      <h1>🎂 Selamat Ulang Tahun</h1>
-      <div class="subtitle">Sebuah surat kecil untukmu 💌</div>
+      <h1>Selamat Naik Level Jadi Kepala Dua 🥳</h1>
+      <div class="subtitle">Sebuah surat kecil untukmu ✉️</div>
 
       <button onclick="openLetter()">Buka Surat</button>
 
-      <div class="letter" id="letter"></div>
-    </div>
+    <div class="letter" id="letter"></div>
+
+<button id="factBtn" class="fact-btn" onclick="showFacts()">Lihat Fakta ✨</button>
+
+<div class="facts" id="facts">
+    <h3>✨ Fakta Singkat</h3>
+    <ul>
+        <li>🎂 Lahir: 12 Januari</li>
+        <li>🎮 Hobi: Gaming</li>
+        <li>☕ Minuman favorit: Kopi</li>
+        <li>🌟 Keunikan: Selalu bikin orang ketawa</li>
+    </ul>
+</div>
 
     <audio id="bgMusic" loop>
       <source src="music/lagu lofi ultah.mp3" type="audio/mpeg" />
     </audio>
 
     <script>
-      const text = `Hai,
+      const text = `Haloooo kakaaaaa,
 
 Selamat bertambah usia 🎉  
+selamat naik level jadi 20, kepala dua nih hahahaha
 Semoga di umur yang baru ini kamu selalu diberi kesehatan,
 kebahagiaan, dan kekuatan untuk mengejar semua impianmu.
 
@@ -172,19 +212,26 @@ dan setiap harimu selalu punya alasan untuk tersenyum 😊
         startConfetti();
       }
 
+      
+
       function startTyping(element) {
         if (index < text.length) {
           element.innerHTML += text[index] === "\n" ? "<br>" : text[index];
           index++;
           setTimeout(() => startTyping(element), 40);
         } else {
-          element.innerHTML += `
-            <div class="signature">
-                Dengan tulus,<br>
-                — Namamu
-            </div>
-        `;
-        }
+    element.innerHTML += `
+        <div class="signature">
+            Dengan tulus,<br>
+            — Namamu
+        </div>
+    `;
+
+    // ⏱ tampilkan tombol fakta
+    setTimeout(() => {
+        document.getElementById("factBtn").style.display = "block";
+    }, 500);
+}
       }
 
       function startConfetti() {
@@ -199,6 +246,11 @@ dan setiap harimu selalu punya alasan untuk tersenyum 😊
           setTimeout(() => confetti.remove(), 5000);
         }
       }
+
+      function showFacts() {
+    document.getElementById("facts").style.display = "block";
+    document.getElementById("factBtn").style.display = "none";
+}
     </script>
   </body>
 </html>
