@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Happy Birthday 💌</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #141e30, #243b55);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        overflow: hidden;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 430px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(18px);
+        border-radius: 24px;
+        padding: 30px;
+        color: #fff;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        animation: fadeUp 1.2s ease;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        text-align: center;
+        opacity: 0.85;
+        margin-bottom: 25px;
+      }
+
+      button {
+        width: 100%;
+        padding: 14px;
+        border-radius: 30px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        color: white;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        transform: scale(1.04);
+      }
+
+      .letter {
+        margin-top: 25px;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 22px;
+        border-radius: 18px;
+        line-height: 1.8;
+
+        display: none;
+
+        /* 🔧 PERBAIKAN UTAMA */
+        max-height: 55vh; /* tinggi maksimal surat */
+        overflow-y: auto; /* aktifkan scroll */
+        scroll-behavior: smooth;
+      }
+
+      /* Scrollbar modern (opsional, tapi bagus) */
+      .letter::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .letter::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 10px;
+      }
+
+      .letter::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .signature {
+        margin-top: 20px;
+        text-align: right;
+        font-style: italic;
+        opacity: 0.9;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Confetti */
+      .confetti {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: red;
+        top: -10px;
+        animation: fall linear forwards;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>🎂 Selamat Ulang Tahun</h1>
+      <div class="subtitle">Sebuah surat kecil untukmu 💌</div>
+
+      <button onclick="openLetter()">Buka Surat</button>
+
+      <div class="letter" id="letter"></div>
+    </div>
+
+    <audio id="bgMusic" loop>
+      <source src="music/lagu lofi ultah.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      const text = `Hai,
+
+Selamat bertambah usia 🎉  
+Semoga di umur yang baru ini kamu selalu diberi kesehatan,
+kebahagiaan, dan kekuatan untuk mengejar semua impianmu.
+
+Terima kasih sudah menjadi pribadi yang luar biasa.
+Jangan pernah ragu dengan dirimu sendiri,
+karena kamu lebih hebat dari yang kamu kira.
+
+Semoga setiap langkahmu dipenuhi hal-hal baik,
+dan setiap harimu selalu punya alasan untuk tersenyum 😊
+`;
+
+      let index = 0;
+
+      function openLetter() {
+        index = 0; // 🔧 reset typing
+
+        document.querySelector("button").style.display = "none";
+
+        const letter = document.getElementById("letter");
+        letter.style.display = "block";
+        letter.innerHTML = "";
+
+        document.getElementById("bgMusic").play();
+
+        startTyping(letter);
+        startConfetti();
+      }
+
+      function startTyping(element) {
+        if (index < text.length) {
+          element.innerHTML += text[index] === "\n" ? "<br>" : text[index];
+          index++;
+          setTimeout(() => startTyping(element), 40);
+        } else {
+          element.innerHTML += `
+            <div class="signature">
+                Dengan tulus,<br>
+                — Namamu
+            </div>
+        `;
+        }
+      }
+
+      function startConfetti() {
+        for (let i = 0; i < 120; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.background = `hsl(${Math.random() * 360},100%,50%)`;
+          confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
+          document.body.appendChild(confetti);
+
+          setTimeout(() => confetti.remove(), 5000);
+        }
+      }
+    </script>
+  </body>
+</html>
